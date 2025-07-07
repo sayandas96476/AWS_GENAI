@@ -1,7 +1,7 @@
 
-Reference Url: https://www.youtube.com/watch?v=3OP39y4dO_Y&list=PLZoTAELRMXVP5zpBfH7pab4aB1LbmCM1z&index=7
-
 # 📝 Blog Generator using AWS Lambda, Amazon Bedrock, and API Gateway
+
+> 📺 **Reference Video**: [YouTube - AWS Bedrock Lambda Blog Generator](https://www.youtube.com/watch?v=3OP39y4dO_Y&list=PLZoTAELRMXVP5zpBfH7pab4aB1LbmCM1z&index=7)
 
 This project automatically generates a 200-word blog on a given topic using [Amazon Bedrock](w) (specifically the `amazon.nova-lite-v1` model) and serves it via an [AWS Lambda](w) function behind an [API Gateway](w). Optionally, the generated blog can be saved to [Amazon S3](w).
 
@@ -9,10 +9,10 @@ This project automatically generates a 200-word blog on a given topic using [Ama
 
 ## 🔧 Architecture
 
-* **API Gateway** (HTTP endpoint)
-* **AWS Lambda** (runtime: Python 3.12, architecture: x86\_64)
-* **Amazon Bedrock** (`amazon.nova-lite-v1` model, region: `eu-north-1`)
-* **Amazon S3** (optional storage)
+* **API Gateway** – Exposes a REST endpoint for blog generation.
+* **AWS Lambda** – Executes Python code to interact with Bedrock (runtime: `Python 3.12`, architecture: `x86_64`).
+* **Amazon Bedrock** – Uses `amazon.nova-lite-v1` for LLM inference (region: `eu-north-1`).
+* **Amazon S3** – (Optional) Used to persist the generated blogs.
 
 ---
 
@@ -21,7 +21,7 @@ This project automatically generates a 200-word blog on a given topic using [Ama
 ```
 .
 ├── lambda_function.py     # Lambda function source code
-├── requirements.txt       # cotains the modules used
+├── requirements.txt       # Contains required Python modules
 ├── README.md              # Project documentation
 ```
 
@@ -36,36 +36,43 @@ Ensure the following AWS services and configurations are in place:
 * [Amazon Bedrock](w) access in region `eu-north-1`
 * [Amazon S3](w) bucket (e.g., `aws_bedrock_course1`) if saving blogs
 * API Gateway (HTTP) configured to trigger the Lambda
-* AWS Lambda Layer including necessary libraries (e.g., `boto3` if not already provided)
+* Lambda Layer including libraries like `boto3` (if not using built-in)
 
 ### Lambda Configuration
 
-* Runtime: `Python 3.12`
-* Architecture: `x86_64`
-* Required IAM permissions:
+* **Runtime**: `Python 3.12`
+* **Architecture**: `x86_64`
+* **IAM Permissions**:
 
   * `bedrock:InvokeModel`
-  * `s3:PutObject` (if using S3)
-  *  For Accessing BedRock Models assign this IAM Roles AmazonBedrockFullAccess
-* Upload or link a **Lambda Layer** compatible with Python 3.11, 3.12, and 3.13 (optional if all used modules are native)
+  * `s3:PutObject` (if saving to S3)
+  * Attach managed policy: `AmazonBedrockFullAccess`
+* **Lambda Layer**:
+
+  * Optional: compatible with Python `3.11`, `3.12`, `3.13` if using external libraries
 
 ---
 
-## 🚀 How to Deploy
+## 🚀 Deployment Steps
 
 ### 1. Upload the Lambda Function
 
-Ensure your `lambda_function.py` is deployed in your Lambda console.
+Deploy `lambda_function.py` to the Lambda console under a new or existing function.
 
 ### 2. Configure API Gateway
 
-* Set up an HTTP API.
-* Create a POST route (e.g., `/generate-blog`).
-* Connect the route to the Lambda function.
+* Create an **HTTP API** in API Gateway.
+* Define a `POST` route (e.g., `/generate-blog`).
+* Link the route to the Lambda function.
 
-### 3. Set Environment Variables and Permissions
+### 3. IAM & Permissions
 
-No environment variables are required by default. Make sure the Lambda IAM role includes `AmazonBedrockFullAccess` and `AmazonS3FullAccess` (if using S3).
+Make sure your Lambda execution role includes:
+
+* `AmazonBedrockFullAccess`
+* `AmazonS3FullAccess` (optional)
+
+No environment variables are required.
 
 ---
 
@@ -95,9 +102,9 @@ Content-Type: application/json
 
 ## 🧠 Notes
 
-* **Model Used**: `amazon.nova-lite-v1` from Amazon Bedrock
-* **Region**: `eu-north-1` (ensure Bedrock access is enabled in this region)
-* **Blog Storage**: Optionally saved to `s3://aws_bedrock_course1/blog-output/`
+* **Model Used**: `amazon.nova-lite-v1`
+* **Region**: `eu-north-1`
+* **Blog Storage** (Optional): `s3://aws_bedrock_course1/blog-output/`
 
 To enable S3 saving, uncomment this line in `lambda_handler`:
 
@@ -109,14 +116,15 @@ To enable S3 saving, uncomment this line in `lambda_handler`:
 
 ## ✅ Future Enhancements
 
-* Add support for multiple Bedrock models via config
-* Allow user to specify blog length
-* Use a vector store or database for blog storage and retrieval
-* Add authentication to the API
+* Support multiple Bedrock models via config
+* User-defined blog length and style
+* Blog storage in a database or vector store
+* API key-based authentication
 
 ---
 
 ## 📄 License
 
-MIT License. Use and modify freely for educational and non-commercial purposes.
+MIT License — Free to use and modify for educational or non-commercial purposes.
 
+---
