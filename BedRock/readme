@@ -1,6 +1,7 @@
 
 # 📝 Blog Generator using AWS Lambda, Amazon Bedrock, and API Gateway
 
+
 > 📺 **Reference Video**: [YouTube - AWS Bedrock Lambda Blog Generator](https://www.youtube.com/watch?v=3OP39y4dO_Y&list=PLZoTAELRMXVP5zpBfH7pab4aB1LbmCM1z&index=7)
 
 This project automatically generates a 200-word blog on a given topic using [Amazon Bedrock](w) (specifically the `amazon.nova-lite-v1` model) and serves it via an [AWS Lambda](w) function behind an [API Gateway](w). Optionally, the generated blog can be saved to [Amazon S3](w).
