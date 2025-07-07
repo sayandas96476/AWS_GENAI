@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import pickle
 
-genai.configure(api_key="AIzaSyAeLVaDfky8PD_j74_ZfL0cSWFienx9_CA")
+genai.configure(api_key="Gemini API Key")
 
 
 
